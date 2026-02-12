@@ -1,0 +1,28 @@
+{
+  "name": "@cloud9-labs/mcp-google-calendar",
+  "version": "0.1.0",
+  "description": "MCP server for Google Calendar API - manage events, calendars, and scheduling",
+  "type": "module",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepare": "npm run build"
+  },
+  "keywords": ["mcp", "google-calendar", "scheduling", "ai", "model-context-protocol"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cloud9-labs/mcp-google-calendar.git"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

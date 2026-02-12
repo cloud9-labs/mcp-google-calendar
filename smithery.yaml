@@ -1,0 +1,132 @@
+name: mcp-google-calendar
+version: 1.0.0
+description: Model Context Protocol server for Google Calendar API v3 - manage calendars, events, free/busy queries
+author: TAISUN
+license: MIT
+
+mcp:
+  type: stdio
+  command: node
+  args:
+    - dist/index.js
+  env:
+    GOOGLE_ACCESS_TOKEN: "{{googleAccessToken}}"
+
+configSchema:
+  type: object
+  properties:
+    googleAccessToken:
+      type: string
+      title: Google OAuth2 Access Token
+      description: |
+        OAuth2 access token for Google Calendar API.
+        
+        To obtain:
+        1. Go to https://console.cloud.google.com/
+        2. Create a new project or select existing
+        3. Enable Google Calendar API
+        4. Create OAuth 2.0 credentials (Desktop app or Web app)
+        5. Use OAuth 2.0 Playground (https://developers.google.com/oauthplayground/) 
+           or implement OAuth flow to get access token
+        6. Required scope: https://www.googleapis.com/auth/calendar
+        
+        Note: Access tokens expire. For production, implement token refresh flow.
+      secret: true
+  required:
+    - googleAccessToken
+
+tags:
+  - calendar
+  - google
+  - scheduling
+  - events
+  - productivity
+
+categories:
+  - productivity
+  - automation
+
+capabilities:
+  - Calendar list management
+  - Event CRUD operations
+  - Natural language event creation (Quick Add)
+  - Free/busy time queries
+  - Attendee management
+  - Reminder configuration
+  - Color customization
+  - Recurring event support
+
+tools:
+  - name: gcal_list_calendars
+    description: List all calendars with pagination support
+  - name: gcal_get_calendar
+    description: Get calendar details by ID
+  - name: gcal_list_events
+    description: List events with filtering and search
+  - name: gcal_get_event
+    description: Get event details by ID
+  - name: gcal_create_event
+    description: Create new calendar event
+  - name: gcal_update_event
+    description: Update existing event
+  - name: gcal_delete_event
+    description: Delete event from calendar
+  - name: gcal_quick_add_event
+    description: Create event from natural language
+  - name: gcal_get_free_busy
+    description: Query free/busy information
+  - name: gcal_list_colors
+    description: List available color options
+
+rateLimits:
+  requests: 10
+  period: 1s
+  retry:
+    enabled: true
+    maxAttempts: 2
+    backoff: exponential
+
+security:
+  authentication: oauth2
+  scopes:
+    - https://www.googleapis.com/auth/calendar
+
+documentation:
+  homepage: https://github.com/yourusername/mcp-google-calendar
+  apiReference: https://developers.google.com/calendar/api/v3/reference
+  examples:
+    - name: List upcoming events
+      description: Get next 10 events from primary calendar
+      code: |
+        {
+          "calendarId": "primary",
+          "timeMin": "2024-01-01T00:00:00Z",
+          "maxResults": 10,
+          "singleEvents": true,
+          "orderBy": "startTime"
+        }
+    - name: Create meeting
+      description: Schedule a meeting with attendees
+      code: |
+        {
+          "calendarId": "primary",
+          "summary": "Team Sync",
+          "start": {
+            "dateTime": "2024-01-15T10:00:00+09:00",
+            "timeZone": "Asia/Tokyo"
+          },
+          "end": {
+            "dateTime": "2024-01-15T11:00:00+09:00",
+            "timeZone": "Asia/Tokyo"
+          },
+          "attendees": [
+            {"email": "colleague@example.com"}
+          ]
+        }
+    - name: Quick add
+      description: Create event from natural language
+      code: |
+        {
+          "calendarId": "primary",
+          "text": "Lunch meeting tomorrow at noon"
+        }
